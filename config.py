@@ -1,19 +1,41 @@
 """
 Configuration file for Resume AI Agent
-Set your OpenAI API key here or use environment variable OPENAI_API_KEY
+Set your OpenAI API key via environment variable OPENAI_API_KEY
+
+DEPLOYMENT GUIDE:
+- Local: Set environment variable OPENAI_API_KEY before running
+- AWS: Use Secrets Manager or Parameter Store
+- Google Cloud: Use Secret Manager
+- Azure: Use Key Vault
+- Heroku: Use Config Vars
 """
 
 import os
+import sys
 
-# Set your OpenAI API key here
-# Replace 'your-api-key-here' with your actual OpenAI API key
-# Example: OPENAI_API_KEY = "sk-proj-xxxxxxxxxxxxx"
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'your-api-key-here')
+# Get API key from environment variable
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-# Alternative: Set it directly in this file (not recommended for security)
-# Uncomment and set your key below:
-# OPENAI_API_KEY = "your-actual-api-key-here"
+# Validate that API key is set
+if not OPENAI_API_KEY or OPENAI_API_KEY == 'your-api-key-here':
+    print("\n" + "="*60)
+    print("ERROR: OPENAI_API_KEY environment variable not set!")
+    print("="*60)
+    print("\nHow to set it:")
+    print("  Windows CMD: set OPENAI_API_KEY=your-key-here")
+    print("  Windows PowerShell: $env:OPENAI_API_KEY='your-key-here'")
+    print("  Linux/Mac: export OPENAI_API_KEY='your-key-here'")
+    print("\nFor Cloud Deployment:")
+    print("  AWS: Use Secrets Manager or Parameter Store")
+    print("  Google Cloud: Use Secret Manager")
+    print("  Azure: Use Key Vault")
+    print("  Heroku: Use Config Vars")
+    print("="*60 + "\n")
+    
+    # Only raise error in production/cloud environments
+    if os.getenv('ENVIRONMENT') == 'production':
+        raise ValueError("OPENAI_API_KEY environment variable is required for cloud deployment")
 
-# Set environment variable if not already set
-if OPENAI_API_KEY and OPENAI_API_KEY != 'your-api-key-here':
+# Ensure it's available in environment
+if OPENAI_API_KEY:
     os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY

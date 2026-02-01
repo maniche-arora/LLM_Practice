@@ -24,9 +24,10 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# Environment variables
+# Environment variables - NEVER commit these
 .env
 .env.local
+.env.*.local
 
 # FAISS indexes (optional - comment out if you want to track these)
 faiss_indexes/
@@ -36,6 +37,7 @@ faiss_indexes/
 
 # Logs
 *.log
+logs/
 
 # Cache
 *.cache
@@ -49,3 +51,12 @@ faiss_indexes/
 temp/
 tmp/
 *.tmp
+
+# IDE
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+.env

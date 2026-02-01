@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  resume-analyzer:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ENVIRONMENT=production
+    volumes:
+      - ./faiss_indexes:/app/faiss_indexes
+    # For Docker secrets (production):
+    # secrets:
+    #   - openai_api_key
+    # environment:
+    #   OPENAI_API_KEY_FILE: /run/secrets/openai_api_key
+
+# For Docker secrets (production):
+# secrets:
+#   openai_api_key:
+#     external: true
