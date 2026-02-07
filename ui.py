@@ -60,7 +60,7 @@ class ResumeAnalysisUI:
             resume_file = st.file_uploader(
                 "Upload your resume (PDF or TXT)",
                 type=["pdf", "txt"],
-                key="resume_upload",
+                key=f"resume_upload_{st.session_state.get('resume_file_key', 0)}",
                 help="Supported formats: PDF or TXT"
             )
         
@@ -69,7 +69,7 @@ class ResumeAnalysisUI:
             jd_file = st.file_uploader(
                 "Upload job description (PDF or TXT)",
                 type=["pdf", "txt"],
-                key="jd_upload",
+                key=f"jd_upload_{st.session_state.get('jd_file_key', 0)}",
                 help="Supported formats: PDF or TXT"
             )
         
@@ -105,8 +105,8 @@ class ResumeAnalysisUI:
 
     @staticmethod
     def render_analysis_section():
-        """Render analysis button and loading states"""
-        col1, col2, col3 = st.columns([1, 1, 1])
+        """Render analysis button and clear all button"""
+        col1, col2 = st.columns([2, 1])
         
         with col1:
             analyze_button = st.button(
@@ -116,19 +116,13 @@ class ResumeAnalysisUI:
             )
         
         with col2:
-            clear_button = st.button(
-                "🔄 Clear Results",
-                use_container_width=True
-            )
-        
-        with col3:
-            reset_button = st.button(
-                "⚡ Reset All",
+            clear_all_button = st.button(
+                "🔄 Clear All",
                 use_container_width=True,
-                help="Clear all caches and start fresh"
+                help="Clear all files, results, and start fresh"
             )
         
-        return analyze_button, clear_button, reset_button
+        return analyze_button, clear_all_button
 
     @staticmethod
     def render_results_header(overall_score, selected):

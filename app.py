@@ -40,6 +40,12 @@ class ResumeAnalysisApp:
         
         if "error_message" not in st.session_state:
             st.session_state.error_message = None
+        
+        if "resume_file_key" not in st.session_state:
+            st.session_state.resume_file_key = 0
+        
+        if "jd_file_key" not in st.session_state:
+            st.session_state.jd_file_key = 0
 
     def initialize_agent(self, cutoff_score=75):
         """Initialize the Resume Analysis Agent with API key from environment"""
@@ -167,16 +173,19 @@ class ResumeAnalysisApp:
                 ResumeAnalysisUI.render_warning(validation_message)
             
             # Analysis section
-            analyze_button, clear_button, reset_button = ResumeAnalysisUI.render_analysis_section()
+            analyze_button, clear_all_button = ResumeAnalysisUI.render_analysis_section()
             
-            # Handle reset button click - Clear everything including FAISS cache
-            if reset_button:
+            # Handle clear all button click - Clear everything including FAISS cache and file uploads
+            if clear_all_button:
                 st.session_state.analysis_results = None
                 st.session_state.analysis_complete = False
                 st.session_state.error_message = None
+                # Change file upload keys to clear uploaded files
+                st.session_state.resume_file_key += 1
+                st.session_state.jd_file_key += 1
                 # Clear FAISS indexes
                 self.clear_faiss_cache()
-                st.success("All caches cleared! Ready for fresh analysis.")
+                st.success("✓ All files, results, and caches cleared! Ready for fresh analysis.")
                 st.rerun()
             
             # Handle analysis button click
@@ -201,12 +210,6 @@ class ResumeAnalysisApp:
                             ResumeAnalysisUI.render_success("Analysis completed successfully!")
                         else:
                             ResumeAnalysisUI.render_error(result)
-            
-            # Handle clear button click
-            if clear_button:
-                st.session_state.analysis_results = None
-                st.session_state.analysis_complete = False
-                st.rerun()
         
         with main_col1:
             # Display results if analysis is complete
