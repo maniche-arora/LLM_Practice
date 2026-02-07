@@ -173,10 +173,10 @@ class ResumeAnalysisApp:
                 ResumeAnalysisUI.render_warning(validation_message)
             
             # Analysis section
-            analyze_button, clear_all_button = ResumeAnalysisUI.render_analysis_section()
+            analyze_button, clear_results_button = ResumeAnalysisUI.render_analysis_section()
             
-            # Handle clear all button click - Clear everything including FAISS cache and file uploads
-            if clear_all_button:
+            # Handle clear results button click - Clear results, files, and FAISS cache
+            if clear_results_button:
                 st.session_state.analysis_results = None
                 st.session_state.analysis_complete = False
                 st.session_state.error_message = None
@@ -185,7 +185,7 @@ class ResumeAnalysisApp:
                 st.session_state.jd_file_key += 1
                 # Clear FAISS indexes
                 self.clear_faiss_cache()
-                st.success("✓ All files, results, and caches cleared! Ready for fresh analysis.")
+                st.success("✓ Results cleared, files removed, and caches reset! Ready for fresh analysis.")
                 st.rerun()
             
             # Handle analysis button click

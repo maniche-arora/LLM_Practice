@@ -105,7 +105,7 @@ class ResumeAnalysisUI:
 
     @staticmethod
     def render_analysis_section():
-        """Render analysis button and clear all button"""
+        """Render analysis button and clear results button"""
         col1, col2 = st.columns([2, 1])
         
         with col1:
@@ -116,13 +116,13 @@ class ResumeAnalysisUI:
             )
         
         with col2:
-            clear_all_button = st.button(
-                "🔄 Clear All",
+            clear_results_button = st.button(
+                "🔄 Clear Results",
                 use_container_width=True,
-                help="Clear all files, results, and start fresh"
+                help="Clear results, uploaded files, and caches"
             )
         
-        return analyze_button, clear_all_button
+        return analyze_button, clear_results_button
 
     @staticmethod
     def render_results_header(overall_score, selected):
